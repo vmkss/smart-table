@@ -42,11 +42,6 @@ function collectState() {
 async function render(action) {
     let state = collectState(); // состояние полей из таблицы
     let query = {};
-    // @todo: использование
-    // result = applySearching(result, state, action);
-    // result = applyFiltering(result, state, action);
-    // result = applySorting(result, state, action);
-    // result = applyPagination(result, state, action);
     query = applyPagination(query, state, action); // обновляем query
     query = applyFiltering(query, state, action); // result заменяем на query
     query = applySearching(query, state, action); // result заменяем на query
@@ -66,18 +61,6 @@ const sampleTable = initTable({
 
 // @todo: инициализация
 
-// const applyPagination = initPagination(
-//     sampleTable.pagination.elements,             // передаём сюда элементы пагинации, найденные в шаблоне
-//     (el, page, isCurrent) => {                    // и колбэк, чтобы заполнять кнопки страниц данными
-//         const input = el.querySelector('input');
-//         const label = el.querySelector('span');
-//         input.value = page;
-//         input.checked = isCurrent;
-//         label.textContent = page;
-//         return el;
-//     }
-// ); 
-
 const {applyPagination, updatePagination} = initPagination(
     sampleTable.pagination.elements,             // передаём сюда элементы пагинации, найденные в шаблоне
     (el, page, isCurrent) => {                    // и колбэк, чтобы заполнять кнопки страниц данными
@@ -95,14 +78,11 @@ const applySearching = initSearching('search', {
     searchField: 'search' // передаем имя поля для поиска
 });
 
-const applySorting = initSorting([        // Нам нужно передать сюда массив элементов, которые вызывают сортировку, чтобы изменять их визуальное представление
+const applySorting = initSorting([        
     sampleTable.header.elements.sortByDate,
     sampleTable.header.elements.sortByTotal
 ]); 
 
-// const applyFiltering = initFiltering(sampleTable.filter.elements, {    // передаём элементы фильтра
-//     searchBySeller: indexes.sellers                                    // для элемента с именем searchBySeller устанавливаем массив продавцов
-// }); 
 const {applyFiltering, updateIndexes} = initFiltering(
     sampleTable.filter.elements
 );  
